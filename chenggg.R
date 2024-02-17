@@ -34,5 +34,8 @@ calculate_summary <- function(data, variable) {
   return(summary_df)
 }
 
+# Apply the function to each numeric variable
+numerical_variables <- sapply(df, is.numeric)
+
 summary_statistics_df <- do.call(rbind, lapply(names(df)[numerical_variables], calculate_summary, data = df))
 rownames(summary_statistics_df) <- names(df)[numerical_variables]
