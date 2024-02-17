@@ -20,6 +20,16 @@ df$Social.ST.min <- sapply(df$Social.ST, convert_to_minutes)
 df$prop_ST <- df$Social.ST.min / df$Total.ST.min
 df$duration_per_use <- df$Total.ST.min / df$Pickups
 
+mark_weekdays <- function(date) {
+  if (weekdays(date) %in% c("Saturday", "Sunday")) {
+    return(0)
+  } else {
+    return(1)
+  }
+}
+df$IsWeekday <- sapply(df$Date, mark_weekdays)
+
+
 # Function to calculate summary statistics and return a data frame
 calculate_summary <- function(data, variable) {
   summary_df <- data %>% 
@@ -38,10 +48,8 @@ calculate_summary <- function(data, variable) {
 # Apply the function to each numeric variable
 numerical_variables <- sapply(df, is.numeric)
 
-summary_statistics_df <- do.call(rbind, lapply(names(df)[numerical_variables], calculate_summary, data = df))
-rownames(summary_statistics_df) <- names(df)[numerical_variables]
+sum_stat_chenggg <- do.call(rbind, lapply(names(df)[numerical_variables], calculate_summary, data = df))
+rownames(sum_stat_chenggg) <- names(df)[numerical_variables]
 
+sum_stat_chenggg <- t(sum_stat_chenggg)
 
-# Create Table 1
-table_1 <- summary_statistics_df
-print(table_1)
