@@ -3,6 +3,7 @@ rm(list = ls())
 gc()
 library(readxl)
 library(dplyr)
+library(lubridate)
 df <- read_excel("ScreenTime_haoyi.xlsx")
 df <- df[c(1:31), ]
 # df$Pickup.1st_EST <- format(as.POSIXct(df$Pickup.1st_EST, format = "%H:%M", tz = "America/Los_Angeles"), "%H:%M", tz = "America/New_York")
@@ -18,6 +19,7 @@ df$Total.ST.min <- sapply(df$Total.ST, convert_to_minutes)
 df$Social.ST.min <- sapply(df$Social.ST, convert_to_minutes)
 df$prop_ST <- df$Social.ST.min / df$Total.ST.min
 df$duration_per_use <- df$Total.ST.min / df$Pickups
+df$is_weekday <- ifelse(wday(df$Date) %in% 2:6, 1, 0)
 
 # Function to calculate summary statistics and return a data frame
 calculate_summary <- function(data, variable) {
