@@ -36,4 +36,4 @@ numerical_variables <- sapply(df, is.numeric)
 
 summary_statistics_df <- do.call(rbind, lapply(names(df)[numerical_variables], calculate_summary, data = df))
 rownames(summary_statistics_df) <- names(df)[numerical_variables]
-write.csv(summary_statistics_df, file = "SummaryStatzihaohan", row.names = TRUE)
+write.csv(summary_statistics_df, file = "SummaryStatzihaohan.csv", row.names = TRUE)
