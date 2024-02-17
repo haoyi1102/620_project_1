@@ -27,17 +27,15 @@ calculate_summary <- function(data, variable) {
       SD = sd(get(variable), na.rm = TRUE),
       Min = min(get(variable), na.rm = TRUE),
       Max = max(get(variable), na.rm = TRUE),
-      Median = median(get(variable), na.rm = TRUE)
+      Median = median(get(variable), na.rm = TRUE),
+      Q1 = quantile(get(variable), 0.25, na.rm = TRUE),
+      Q3 = quantile(get(variable), 0.75, na.rm = TRUE)
     )
   return(summary_df)
 }
 
 # Apply the function to each numeric variable
 numerical_variables <- sapply(df, is.numeric)
-summary_statistics_list <- lapply(names(df)[numerical_variables], calculate_summary, data = df)
 
-# Combine all summaries into a list
-names(summary_statistics_list) <- names(df)[numerical_variables]
-
-# Print the summary statistics for each variable
-summary_statistics_list
+summary_statistics_df <- do.call(rbind, lapply(names(df)[numerical_variables], calculate_summary, data = df))
+rownames(summary_statistics_df) <- names(df)[numerical_variables]
