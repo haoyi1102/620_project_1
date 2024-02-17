@@ -3,6 +3,7 @@ rm(list = ls())
 gc()
 library(readxl)
 library(dplyr)
+library(ggplot2)
 df <- read_excel("ScreenTime_chenggg.xlsx")
 df <- df[c(1:31), ]
 df$Pickup.1st_EST <- format(as.POSIXct(df$Pickup.1st_PST, format = "%H:%M", tz = "America/Los_Angeles"), "%H:%M", tz = "America/New_York")
@@ -39,3 +40,8 @@ numerical_variables <- sapply(df, is.numeric)
 
 summary_statistics_df <- do.call(rbind, lapply(names(df)[numerical_variables], calculate_summary, data = df))
 rownames(summary_statistics_df) <- names(df)[numerical_variables]
+
+
+# Create Table 1
+table_1 <- summary_statistics_df
+print(table_1)
