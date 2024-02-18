@@ -22,8 +22,8 @@ df$duration_per_use <- df$Total.ST.min / df$Pickups
 df$is_weekday <- ifelse(wday(df$Date) %in% 2:6, 1, 0)
 ### calculate XX XY
 
-X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, df$prop_ST))
-Y <- df$duration_per_use
+X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, df$duration_per_use,df$is_weekday))
+Y <- df$prop_ST
 
 XX <- t(X) %*% X  
 XY <- t(X) %*% Y
@@ -34,8 +34,7 @@ combined_matrix <- cbind(XX, XY = XY_matrix)
 
 combined_df <- as.data.frame(combined_matrix)
 
-write.csv(XX, "XX_haoyi.csv", row.names = FALSE)
-write.csv(XY, "XY_haoyi.csv", row.names = FALSE)
+write.csv(combined_df, "haoyi_XX_XY.csv", row.names = FALSE)
 
 ###
 result_summary <- df %>%
