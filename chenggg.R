@@ -92,4 +92,8 @@ write.csv(statistical_summary, file = "SummaryStatchenggg.csv", row.names = TRUE
 YY = t(Y) %*% Y
 n = nrow(df)
 data_to_save <- data.frame(YY = c(YY[,1]), n = n)
+<<<<<<< HEAD
 write.csv(data_to_save, file = "chenggg_YY_n.csv", row.names = FALSE)
+=======
+write.csv(data_to_save, file = "chenggg_YY_n.csv", row.names = FALSE)
+>>>>>>> 0a2570eca3b24fbf0efad1809516fc38dda550b8
