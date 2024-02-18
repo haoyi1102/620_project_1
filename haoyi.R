@@ -36,6 +36,9 @@ combined_df <- as.data.frame(combined_matrix)
 
 write.csv(combined_df, "haoyi_XX_XY.csv", row.names = FALSE)
 
+### calculate SSE and n
+
+
 ###
 result_summary <- df %>%
   group_by(is_weekday) %>%
@@ -82,8 +85,3 @@ statistical_summary <- result_summary %>%
   pivot_wider(names_from = stat, values_from = value)
 
 write.csv(statistical_summary, file = "SummaryStathaoyi.csv", row.names = TRUE)
-
-YY = t(Y) %*% Y
-n = nrow(df)
-data_to_save <- data.frame(YY = c(YY[,1]), n = n)
-write.csv(data_to_save, file = "haoyi_YY_n.csv", row.names = FALSE)
