@@ -34,7 +34,8 @@ combined_matrix <- cbind(XX, XY = XY_matrix)
 
 combined_df <- as.data.frame(combined_matrix)
 
-write.csv(combined_df, file = "haoyi_XX_XY.csv", row.names = FALSE)
+write.csv(XX, "XX_haoyi.csv", row.names = FALSE)
+write.csv(XY, "XY_haoyi.csv", row.names = FALSE)
 
 ###
 result_summary <- df %>%

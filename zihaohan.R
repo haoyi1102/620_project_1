@@ -67,3 +67,16 @@ statistical_summary <- result_summary %>%
 
 write.csv(statistical_summary, file = "SummaryStatzihaohan.csv", row.names = TRUE)
 
+
+# calculate XX
+
+X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, df$prop_ST,df$is_weekday))
+XX = t(X)%*%X
+Y <- df$duration_per_use
+XY <- t(X) %*% Y
+
+write.csv(XX, "XX_zihaohan.csv", row.names = FALSE)
+write.csv(XY, "XY_zihaohan.csv", row.names = FALSE)
+
+
+
