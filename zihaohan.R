@@ -3,6 +3,7 @@ gc()
 library(readxl)
 library(dplyr)
 library(lubridate)
+library(tidyr)
 df <- read_excel("ScreenTimeZihaoHan.xlsx")
 
 convert_to_minutes <- function(time) {

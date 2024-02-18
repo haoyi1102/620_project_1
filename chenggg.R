@@ -6,6 +6,7 @@ library(readxl)
 library(dplyr)
 library(ggplot2)
 library(lubridate)
+library(tidyr)
 df <- read_excel("ScreenTime_chenggg.xlsx")
 df <- df[c(1:31), ]
 df$Pickup.1st_EST <- format(as.POSIXct(df$Pickup.1st_PST, format = "%H:%M", tz = "America/Los_Angeles"), "%H:%M", tz = "America/New_York")
@@ -13,6 +14,9 @@ df$Pickup.1st_EST <- format(as.POSIXct(df$Pickup.1st_PST, format = "%H:%M", tz =
 convert_to_minutes <- function(time) {
   if (!grepl("h", time)) {
     return(as.numeric(sub("m", "", time)))
+  }
+  if (!grepl("m", time)) {
+    return(60*as.numeric(sub("h", "", time)))
   }
   parts <- strsplit(time, "h|m")[[1]]
   as.numeric(parts[1]) * 60 + as.numeric(parts[2])
@@ -23,27 +27,48 @@ df$prop_ST <- df$Social.ST.min / df$Total.ST.min
 df$duration_per_use <- df$Total.ST.min / df$Pickups
 df$is_weekday <- ifelse(wday(df$Date) %in% 2:6, 1, 0)
 
+result_summary <- df %>%
+  group_by(is_weekday) %>%
+  summarise(
+    mean_Total_ST_min = mean(Total.ST.min),
+    sd_Total_ST_min = sd(Total.ST.min),
+    q1_Total_ST_min = quantile(Total.ST.min, 0.25),
+    q3_Total_ST_min = quantile(Total.ST.min, 0.75),
+    min_Total_ST_min = min(Total.ST.min),
+    max_Total_ST_min = max(Total.ST.min),
+    
+    mean_Social_ST_min = mean(Social.ST.min),
+    sd_Social_ST_min = sd(Social.ST.min),
+    q1_Social_ST_min = quantile(Social.ST.min, 0.25),
+    q3_Social_ST_min = quantile(Social.ST.min, 0.75),
+    min_Social_ST_min = min(Social.ST.min),
+    max_Social_ST_min = max(Social.ST.min),
+    
+    mean_Pickups = mean(Pickups),
+    sd_Pickups = sd(Pickups),
+    q1_Pickups = quantile(Pickups, 0.25),
+    q3_Pickups = quantile(Pickups, 0.75),
+    min_Pickups = min(Pickups),
+    max_Pickups = max(Pickups),
+    
+    mean_prop_ST = mean(prop_ST),
+    sd_prop_ST = sd(prop_ST),
+    q1_prop_ST = quantile(prop_ST, 0.25),
+    q3_prop_ST = quantile(prop_ST, 0.75),
+    min_prop_ST = min(prop_ST),
+    max_prop_ST = max(prop_ST),
+    
+    mean_duration_per_use = mean(duration_per_use),
+    sd_duration_per_use = sd(duration_per_use),
+    q1_duration_per_use = quantile(duration_per_use, 0.25),
+    q3_duration_per_use = quantile(duration_per_use, 0.75),
+    min_duration_per_use = min(duration_per_use),
+    max_duration_per_use = max(duration_per_use)
+  )
 
-# Function to calculate summary statistics and return a data frame
-calculate_summary <- function(data, variable) {
-  summary_df <- data %>% 
-    summarise(
-      Mean = mean(get(variable), na.rm = TRUE),
-      SD = sd(get(variable), na.rm = TRUE),
-      Min = min(get(variable), na.rm = TRUE),
-      Max = max(get(variable), na.rm = TRUE),
-      Median = median(get(variable), na.rm = TRUE),
-      Q1 = quantile(get(variable), 0.25, na.rm = TRUE),
-      Q3 = quantile(get(variable), 0.75, na.rm = TRUE)
-    )
-  return(summary_df)
-}
+statistical_summary <- result_summary %>%
+  pivot_longer(cols = -is_weekday) %>%
+  separate(name, into = c("variable", "stat"), sep = "_") %>%
+  pivot_wider(names_from = stat, values_from = value)
 
-# Apply the function to each numeric variable
-numerical_variables <- sapply(df, is.numeric)
-
-sum_stat_chenggg <- do.call(rbind, lapply(names(df)[numerical_variables], calculate_summary, data = df))
-rownames(sum_stat_chenggg) <- names(df)[numerical_variables]
-
-sum_stat_chenggg <- t(sum_stat_chenggg)
-
+write.csv(statistical_summary, file = "SummaryStatchenggg.csv", row.names = TRUE)
