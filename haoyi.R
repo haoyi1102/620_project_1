@@ -22,8 +22,8 @@ df$duration_per_use <- df$Total.ST.min / df$Pickups
 df$is_weekday <- ifelse(wday(df$Date) %in% 2:6, 1, 0)
 ### calculate XX XY
 
-X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, df$prop_ST))
-Y <- df$duration_per_use
+X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, df$duration_per_use,df$is_weekday))
+Y <- df$prop_ST
 
 XX <- t(X) %*% X  
 XY <- t(X) %*% Y
