@@ -10,7 +10,7 @@ library(tidyr)
 df <- read_excel("ScreenTime_chenggg.xlsx")
 df <- df[c(1:31), ]
 df$Pickup.1st_EST <- format(as.POSIXct(df$Pickup.1st_PST, format = "%H:%M", tz = "America/Los_Angeles"), "%H:%M", tz = "America/New_York")
-
+df <- df %>% select(-"Pickup.1st_PST")
 convert_to_minutes <- function(time) {
   if (!grepl("h", time)) {
     return(as.numeric(sub("m", "", time)))
@@ -89,11 +89,3 @@ statistical_summary <- result_summary %>%
 
 write.csv(statistical_summary, file = "SummaryStatchenggg.csv", row.names = TRUE)
 
-YY = t(Y) %*% Y
-n = nrow(df)
-data_to_save <- data.frame(YY = c(YY[,1]), n = n)
-<<<<<<< HEAD
-write.csv(data_to_save, file = "chenggg_YY_n.csv", row.names = FALSE)
-=======
-write.csv(data_to_save, file = "chenggg_YY_n.csv", row.names = FALSE)
->>>>>>> 0a2570eca3b24fbf0efad1809516fc38dda550b8

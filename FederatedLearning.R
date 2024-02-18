@@ -4,7 +4,17 @@ gc()
 haoyi_data <- read.csv("haoyi_XX_XY.csv")
 chenggg_data <- read.csv("chenggg_XX_XY.csv")
 zihaohan_data <- read.csv("zihaohan_XX_XY.csv")
+XX_1 = as.matrix(haoyi_data[,1:ncol(haoyi_data)-1])
+XX_2 = as.matrix(chenggg_data[,1:ncol(chenggg_data)-1])
+XX_3 = as.matrix(zihaohan_data[,1:ncol(zihaohan_data)-1])
+total_XX = XX_1 + XX_2 + XX_3
+XY_1 = as.matrix(haoyi_data[,ncol(haoyi_data)])
+XY_2 = as.matrix(chenggg_data[,ncol(chenggg_data)])
+XY_3 = as.matrix(zihaohan_data[,ncol(zihaohan_data)])
+total_XY = XY_1 + XY_2 + XY_3
+total_beta = solve(total_XX) %*% total_XY
 
+'''
 extract_and_aggregate <- function(data_list) {
   total_XX <- 0
   total_XY <- 0
@@ -29,6 +39,8 @@ result = extract_and_aggregate(data_list)
 total_beta = result[,1]
 total_XY = result[,ncol(result)]
 total_XX = result[,3:ncol(result)-1]
+'''
+
 beta_names <- c("(Intercept)", "Total.ST.min", "Social.ST.min", "Pickups", "duration","is_weekday")
 names(total_beta) <- beta_names
 
