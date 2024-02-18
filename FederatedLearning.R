@@ -49,8 +49,9 @@ YY_n_haoyi = read.csv("haoyi_YY_n.csv")
 total_YY = YY_n_chenggg$YY+YY_n_haoyi$YY+YY_n_zihao$YY
 total_n = YY_n_chenggg$n + YY_n_haoyi$n + YY_n_zihao$n
 p = 6
+beta_matrix = as.matrix(beta_estimates)
 
-epsilon.2 = total_YY - 2 * t(beta_matrix) %*% total_XY + t(beta_matrix) %*% total_XX %*% beta_matrix
+epsilon.2 = total_YY - 2 * t(beta_matrix) %*% total_XY + t(beta_matrix) %*% as.matrix(total_XX) %*% beta_matrix
 
 sigma.square = epsilon.2/(total_n-p)
 
@@ -64,3 +65,4 @@ p_values <- 2 * pt(-abs(t.value), df = total_n - p)
 total_beta_df <- data.frame(Coefficient = beta_names, Estimate = beta_estimates, 
                             statistics = t.value,P.value = p_values)
 write.csv(total_beta_df,"federalLearning_beta.csv",row.names = FALSE)
+
