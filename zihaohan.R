@@ -75,6 +75,11 @@ XX = t(X)%*%X
 Y <- df$duration_per_use
 XY <- t(X) %*% Y
 
+YY = t(Y) %*% Y
+n = nrow(df)
+data_to_save <- data.frame(YY = c(YY[,1]), n = n)
+write.csv(data_to_save, file = "zihaohan_YY_n.csv", row.names = FALSE)
+
 XY_matrix <- matrix(XY, ncol = 1)
 
 combined_matrix <- cbind(XX, XY = XY_matrix)
