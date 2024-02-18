@@ -2,6 +2,7 @@ rm(list = ls())
 gc()
 library(readxl)
 library(dplyr)
+library(lubridate)
 df <- read_excel("ScreenTimeZihaoHan.xlsx")
 
 convert_to_minutes <- function(time) {
@@ -16,24 +17,51 @@ df$Social.ST.min <- sapply(df$Social.ST, convert_to_minutes)
 df$prop_ST <- df$Social.ST.min / df$Total.ST.min
 df$duration_per_use <- df$Total.ST.min / df$Pickups
 
-# Function to calculate summary statistics and return a data frame
-calculate_summary <- function(data, variable) {
-  summary_df <- data %>% 
-    summarise(
-      Mean = mean(get(variable), na.rm = TRUE),
-      SD = sd(get(variable), na.rm = TRUE),
-      Min = min(get(variable), na.rm = TRUE),
-      Max = max(get(variable), na.rm = TRUE),
-      Median = median(get(variable), na.rm = TRUE),
-      Q1 = quantile(get(variable), 0.25, na.rm = TRUE),
-      Q3 = quantile(get(variable), 0.75, na.rm = TRUE)
-    )
-  return(summary_df)
-}
+df$is_weekday <- ifelse(df$Date < as.Date("2024-01-10"), 0,
+                        ifelse(wday(df$Date) %in% 2:5, 1, 0))
 
-# Apply the function to each numeric variable
-numerical_variables <- sapply(df, is.numeric)
+result_summary <- df %>%
+  group_by(is_weekday) %>%
+  summarise(
+    mean_Total_ST_min = mean(Total.ST.min),
+    sd_Total_ST_min = sd(Total.ST.min),
+    q1_Total_ST_min = quantile(Total.ST.min, 0.25),
+    q3_Total_ST_min = quantile(Total.ST.min, 0.75),
+    min_Total_ST_min = min(Total.ST.min),
+    max_Total_ST_min = max(Total.ST.min),
+    
+    mean_Social_ST_min = mean(Social.ST.min),
+    sd_Social_ST_min = sd(Social.ST.min),
+    q1_Social_ST_min = quantile(Social.ST.min, 0.25),
+    q3_Social_ST_min = quantile(Social.ST.min, 0.75),
+    min_Social_ST_min = min(Social.ST.min),
+    max_Social_ST_min = max(Social.ST.min),
+    
+    mean_Pickups = mean(Pickups),
+    sd_Pickups = sd(Pickups),
+    q1_Pickups = quantile(Pickups, 0.25),
+    q3_Pickups = quantile(Pickups, 0.75),
+    min_Pickups = min(Pickups),
+    max_Pickups = max(Pickups),
+    
+    mean_prop_ST = mean(prop_ST),
+    sd_prop_ST = sd(prop_ST),
+    q1_prop_ST = quantile(prop_ST, 0.25),
+    q3_prop_ST = quantile(prop_ST, 0.75),
+    min_prop_ST = min(prop_ST),
+    max_prop_ST = max(prop_ST),
+    
+    mean_duration_per_use = mean(duration_per_use),
+    sd_duration_per_use = sd(duration_per_use),
+    q1_duration_per_use = quantile(duration_per_use, 0.25),
+    q3_duration_per_use = quantile(duration_per_use, 0.75),
+    min_duration_per_use = min(duration_per_use),
+    max_duration_per_use = max(duration_per_use)
+  )
 
-summary_statistics_df <- do.call(rbind, lapply(names(df)[numerical_variables], calculate_summary, data = df))
-rownames(summary_statistics_df) <- names(df)[numerical_variables]
-write.csv(summary_statistics_df, file = "SummaryStatzihaohan.csv", row.names = TRUE)
+statistical_summary <- result_summary %>%
+  pivot_longer(cols = -is_weekday) %>%
+  separate(name, into = c("variable", "stat"), sep = "_") %>%
+  pivot_wider(names_from = stat, values_from = value)
+
+write.csv(statistical_summary, file = "SummaryStatzihaohan.csv", row.names = TRUE)
