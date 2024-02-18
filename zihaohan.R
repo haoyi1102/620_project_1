@@ -3,6 +3,7 @@ gc()
 library(readxl)
 library(dplyr)
 library(lubridate)
+library(tidyr)
 df <- read_excel("ScreenTimeZihaoHan.xlsx")
 
 convert_to_minutes <- function(time) {
@@ -18,7 +19,7 @@ df$prop_ST <- df$Social.ST.min / df$Total.ST.min
 df$duration_per_use <- df$Total.ST.min / df$Pickups
 
 df$is_weekday <- ifelse(df$Date < as.Date("2024-01-10"), 0,
-                        ifelse(wday(df$Date) %in% 2:5, 1, 0))
+                        ifelse(wday(df$Date) %in% 2:6, 1, 0))
 
 result_summary <- df %>%
   group_by(is_weekday) %>%
@@ -65,3 +66,4 @@ statistical_summary <- result_summary %>%
   pivot_wider(names_from = stat, values_from = value)
 
 write.csv(statistical_summary, file = "SummaryStatzihaohan.csv", row.names = TRUE)
+
