@@ -34,6 +34,7 @@ Y <- df$prop_ST
 
 XX <- t(X) %*% X  
 XY <- t(X) %*% Y
+YY <- t(Y) %*% Y
 
 XY_matrix <- matrix(XY, ncol = 1)
 
