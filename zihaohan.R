@@ -70,9 +70,9 @@ write.csv(statistical_summary, file = "SummaryStatzihaohan.csv", row.names = TRU
 
 # calculate XX
 
-X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, df$prop_ST,df$is_weekday))
+X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, df$duration_per_use,df$is_weekday))
 XX = t(X)%*%X
-Y <- df$duration_per_use
+Y <- df$prop_ST
 XY <- t(X) %*% Y
 
 YY = t(Y) %*% Y

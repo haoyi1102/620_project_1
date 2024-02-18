@@ -1,5 +1,5 @@
-setwd("C:/Users/21492/Desktop/BIOSTAT620/620_project_1")
-Sys.setlocale("LC_TIME", "en_US.UTF-8")
+#setwd("C:/Users/21492/Desktop/BIOSTAT620/620_project_1")
+#Sys.setlocale("LC_TIME", "en_US.UTF-8")
 rm(list = ls())
 gc()
 library(readxl)
@@ -88,3 +88,8 @@ statistical_summary <- result_summary %>%
   pivot_wider(names_from = stat, values_from = value)
 
 write.csv(statistical_summary, file = "SummaryStatchenggg.csv", row.names = TRUE)
+
+YY = t(Y) %*% Y
+n = nrow(df)
+data_to_save <- data.frame(YY = c(YY[,1]), n = n)
+write.csv(data_to_save, file = "chenggg_YY_n.csv", row.names = FALSE)
