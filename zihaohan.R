@@ -4,6 +4,8 @@ library(readxl)
 library(dplyr)
 library(lubridate)
 library(tidyr)
+library(ggplot2)
+library(scales)
 df <- read_excel("ScreenTimeZihaoHan.xlsx")
 
 convert_to_minutes <- function(time) {
@@ -88,14 +90,15 @@ combined_matrix <- cbind(XX, XY = XY_matrix)
 
 combined_df <- as.data.frame(combined_matrix)
 write.csv(combined_matrix, "zihaohan_XX_XY.csv", row.names = FALSE)
-
+df$Date <- as.Date(df$Date)
+df$is_weekday <- factor(df$is_weekday)
 proportion.plot = ggplot(df, aes(x = Date, y = prop_ST, 
                                  color = is_weekday, group = 1)) +
   geom_line(color = "steelblue") +
   geom_point() +
   xlab("Date") +
   ylab("Proportion of Social Screen Time") +
-  ylim(0,max(st$proportionOfSocial)+0.1) +
+  ylim(0,max(df$prop_ST)+0.1) +
   scale_color_manual(labels = c("No Course Today","Have Course Today"), 
                      values = c("black", "red")) +
   scale_x_date(labels = date_format("%m/%d")) +
@@ -104,16 +107,13 @@ proportion.plot = ggplot(df, aes(x = Date, y = prop_ST,
         legend.title = element_blank())
 ggsave("./line_plot_zihaohan.png", plot = proportion.plot, width = 10, height = 6, units = "in")
 
-df$is_weekday <- factor(df$is_weekday)
-
-# Create a boxplot
 boxplot_plot <- ggplot(df, aes(x = is_weekday, y = prop_ST, fill = is_weekday)) +
   geom_boxplot() +
   xlab("Weekday") +
   ylab("Proportion of Social Screen Time") +
-  scale_fill_manual(values = c("black", "red")) +  # Adjust fill colors as needed
+  #scale_fill_manual(values = c("black", "red")) +  # Adjust fill colors as needed
   theme_minimal()
 
-ggsave("./box_plot_zihaohan.png", plot = proportion.plot, width = 10, height = 6, units = "in")
+ggsave("./Figure/box_plot_zihaohan.png", plot = proportion.plot, width = 10, height = 6, units = "in")
 
 
