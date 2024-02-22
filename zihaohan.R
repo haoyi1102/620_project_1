@@ -70,7 +70,9 @@ write.csv(statistical_summary, file = "SummaryStatzihaohan.csv", row.names = TRU
 
 # calculate XX
 
-X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, df$duration_per_use,df$is_weekday))
+X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, df$Pickups, 
+                     df$duration_per_use,df$is_weekday,df$procrastination,
+                     df$BMI,df$course_hour))
 XX = t(X)%*%X
 Y <- df$prop_ST
 XY <- t(X) %*% Y
@@ -85,7 +87,7 @@ XY_matrix <- matrix(XY, ncol = 1)
 combined_matrix <- cbind(XX, XY = XY_matrix)
 
 combined_df <- as.data.frame(combined_matrix)
-write.csv(combined_matrix, "zihaohan.csv_XX_XY", row.names = FALSE)
+write.csv(combined_matrix, "zihaohan_XX_XY.csv", row.names = FALSE)
 
 
 
