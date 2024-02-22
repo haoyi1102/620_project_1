@@ -104,7 +104,7 @@ proportion.plot = ggplot(df, aes(x = Date, y = prop_ST,
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
         legend.title = element_blank())
-ggsave("./line_plot_zihaohan.png", plot = proportion.plot, width = 10, height = 6, units = "in")
+ggsave("./Figure/line_plot_zihaohan.png", plot = proportion.plot, width = 10, height = 6, units = "in")
 
 boxplot_plot <- ggplot(df, aes(x = is_weekday, y = prop_ST, fill = is_weekday)) +
   geom_boxplot() +

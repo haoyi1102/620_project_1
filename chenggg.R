@@ -7,6 +7,8 @@ library(dplyr)
 library(ggplot2)
 library(lubridate)
 library(tidyr)
+library(ggplot2)
+library(scales)
 df <- read_excel("ScreenTime_chenggg.xlsx")
 df <- df[c(1:31), ]
 df$Pickup.1st_EST <- format(as.POSIXct(df$Pickup.1st_PST, format = "%H:%M", tz = "America/Los_Angeles"), "%H:%M", tz = "America/New_York")
@@ -88,4 +90,30 @@ statistical_summary <- result_summary %>%
   pivot_wider(names_from = stat, values_from = value)
 
 write.csv(statistical_summary, file = "SummaryStatchenggg.csv", row.names = TRUE)
+
+df$Date <- as.Date(df$Date)
+df$is_weekday <- factor(df$is_weekday)
+proportion.plot = ggplot(df, aes(x = Date, y = prop_ST, 
+                                 color = is_weekday, group = 1)) +
+  geom_line(color = "steelblue") +
+  geom_point() +
+  xlab("Date") +
+  ylab("Proportion of Social Screen Time") +
+  ylim(0,max(df$prop_ST)+0.1) +
+  scale_color_manual(labels = c("No Course Today","Have Course Today"), 
+                     values = c("black", "red")) +
+  scale_x_date(labels = date_format("%m/%d")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.title = element_blank())
+ggsave("./Figure/line_plot_chenggg.png", plot = proportion.plot, width = 10, height = 6, units = "in")
+
+boxplot_plot <- ggplot(df, aes(x = is_weekday, y = prop_ST, fill = is_weekday)) +
+  geom_boxplot() +
+  xlab("Weekday") +
+  ylab("Proportion of Social Screen Time") +
+  #scale_fill_manual(values = c("black", "red")) +  # Adjust fill colors as needed
+  theme_minimal()
+
+ggsave("./Figure/box_plot_chenggg.png", plot = proportion.plot, width = 10, height = 6, units = "in")
 
