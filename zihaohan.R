@@ -89,5 +89,31 @@ combined_matrix <- cbind(XX, XY = XY_matrix)
 combined_df <- as.data.frame(combined_matrix)
 write.csv(combined_matrix, "zihaohan_XX_XY.csv", row.names = FALSE)
 
+proportion.plot = ggplot(df, aes(x = Date, y = prop_ST, 
+                                 color = is_weekday, group = 1)) +
+  geom_line(color = "steelblue") +
+  geom_point() +
+  xlab("Date") +
+  ylab("Proportion of Social Screen Time") +
+  ylim(0,max(st$proportionOfSocial)+0.1) +
+  scale_color_manual(labels = c("No Course Today","Have Course Today"), 
+                     values = c("black", "red")) +
+  scale_x_date(labels = date_format("%m/%d")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.title = element_blank())
+ggsave("./line_plot_zihaohan.png", plot = proportion.plot, width = 10, height = 6, units = "in")
+
+df$is_weekday <- factor(df$is_weekday)
+
+# Create a boxplot
+boxplot_plot <- ggplot(df, aes(x = is_weekday, y = prop_ST, fill = is_weekday)) +
+  geom_boxplot() +
+  xlab("Weekday") +
+  ylab("Proportion of Social Screen Time") +
+  scale_fill_manual(values = c("black", "red")) +  # Adjust fill colors as needed
+  theme_minimal()
+
+ggsave("./box_plot_zihaohan.png", plot = proportion.plot, width = 10, height = 6, units = "in")
 
 
