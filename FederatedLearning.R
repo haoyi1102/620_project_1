@@ -14,32 +14,32 @@ XY_3 = as.matrix(zihaohan_data[,ncol(zihaohan_data)])
 total_XY = XY_1 + XY_2 + XY_3
 total_beta = solve(total_XX) %*% total_XY
 
-'''
-extract_and_aggregate <- function(data_list) {
-  total_XX <- 0
-  total_XY <- 0
-  
-  for(data in data_list) {
-    XX <- as.matrix(data[, -ncol(data)])
-    XY <- as.matrix(data[, ncol(data)], ncol = 1)
-    
-    total_XX <- total_XX + XX
-    total_XY <- total_XY + XY
-  }
-  
-  total_beta <- solve(total_XX) %*% total_XY
-  result = data.frame(total_beta = total_beta,
-                      total_XX = total_XX,
-                      total_XY = total_XY)
-  return(result)
-}
 
-data_list <- list(haoyi_data, chenggg_data, zihaohan_data)
-result = extract_and_aggregate(data_list)
-total_beta = result[,1]
-total_XY = result[,ncol(result)]
-total_XX = result[,3:ncol(result)-1]
-'''
+# extract_and_aggregate <- function(data_list) {
+#   total_XX <- 0
+#   total_XY <- 0
+#   
+#   for(data in data_list) {
+#     XX <- as.matrix(data[, -ncol(data)])
+#     XY <- as.matrix(data[, ncol(data)], ncol = 1)
+#     
+#     total_XX <- total_XX + XX
+#     total_XY <- total_XY + XY
+#   }
+#   
+#   total_beta <- solve(total_XX) %*% total_XY
+#   result = data.frame(total_beta = total_beta,
+#                       total_XX = total_XX,
+#                       total_XY = total_XY)
+#   return(result)
+# }
+# 
+# data_list <- list(haoyi_data, chenggg_data, zihaohan_data)
+# result = extract_and_aggregate(data_list)
+# total_beta = result[,1]
+# total_XY = result[,ncol(result)]
+# total_XX = result[,3:ncol(result)-1]
+
 
 beta_names <- c("(Intercept)", "Total.ST.min", "Social.ST.min", "Pickups", "duration","is_weekday")
 names(total_beta) <- beta_names
