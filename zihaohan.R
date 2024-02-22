@@ -7,7 +7,6 @@ library(tidyr)
 library(ggplot2)
 library(scales)
 df <- read_excel("ScreenTimeZihaoHan.xlsx")
-
 convert_to_minutes <- function(time) {
   if (!grepl("h", time)) {
     return(as.numeric(sub("m", "", time)))
