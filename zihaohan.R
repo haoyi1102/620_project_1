@@ -22,7 +22,7 @@ df$duration_per_use <- df$Total.ST.min / df$Pickups
 
 df$is_weekday <- ifelse(df$Date < as.Date("2024-01-10"), 0,
                         ifelse(wday(df$Date) %in% 2:6, 1, 0))
-df$course_hours = df$course_hour
+df$course_hours = rep(13)
 result_summary <- df %>%
   group_by(is_weekday) %>%
   summarise(
