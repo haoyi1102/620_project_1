@@ -78,8 +78,12 @@ se.beta = diag(se.beta)
 
 t.value = beta_estimates/se.beta
 p_values <- 2 * pt(-abs(t.value), df = total_n - p)
-
+confidence_level <- 0.95
+critical_value <- qnorm((1 + confidence_level) / 2)
 total_beta_df <- data.frame(Coefficient = beta_names, Estimate = beta_estimates, 
-                            statistics = t.value,P.value = p_values)
+                            SE = se.beta, statistics = t.value,P.value = p_values)
+total_beta_df$Lower_CI <- total_beta_df$Estimate - critical_value * se.beta
+total_beta_df$Upper_CI <- total_beta_df$Estimate + critical_value * se.beta
+
 write.csv(total_beta_df,"federalLearning_beta.csv",row.names = FALSE)
 
