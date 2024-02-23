@@ -13,7 +13,7 @@ df <- read_excel("ScreenTime_chenggg.xlsx")
 df <- df[c(1:31), ]
 df$Pickup.1st_EST <- format(as.POSIXct(df$Pickup.1st_PST, format = "%H:%M", tz = "America/Los_Angeles"), "%H:%M", tz = "America/New_York")
 df <- df %>% select(-"Pickup.1st_PST")
-
+ 
 convert_to_minutes <- function(time) {
   if (!grepl("h", time)) {
     return(as.numeric(sub("m", "", time)))
