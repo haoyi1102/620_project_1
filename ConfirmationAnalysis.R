@@ -67,6 +67,7 @@ df_zihaohan$is_weekday <- ifelse(df_zihaohan$Date < as.Date("2024-01-10"), 0,
 df_chenggg$Source <- 'chenggg'
 df_haoyi$Source <- 'haoyi'
 df_zihaohan$Source <- 'zihaohan'
+
 # Combine the three dataframes into one by appending them row-wise
 df_combined <- rbind(df_chenggg, df_haoyi, df_zihaohan)
 
