@@ -143,7 +143,7 @@ gtsave(visual_table_1, filename = "./Figure/statistical_summary_zihaohan.html")
 
 X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, 
                      df$Pickups, df$duration_per_use,df$is_weekday,Pickup.1st.angular,
-                     df$procrastination,df$BMI, df$course_hours))
+                     df$procrastination,df$BMI))
 XX = t(X)%*%X
 Y <- log(df$prop_ST/(1-df$prop_ST))
 XY <- t(X) %*% Y

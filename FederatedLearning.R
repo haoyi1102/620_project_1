@@ -46,8 +46,7 @@ X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min,
                      Pickup.1st.angular,df$procrastination,df$BMI, df$course_hours))
 beta_names <- c("(Intercept)", "Total.ST.min", "Social.ST.min",
                 "Pickups", "duration","is_weekday",
-                "Pickup.1st.angular", "BMI","procrastination", 
-                "course_hours")
+                "Pickup.1st.angular", "BMI","procrastination")
 names(total_beta) <- beta_names
 
 beta_estimates <- as.numeric(total_beta)
@@ -66,7 +65,7 @@ YY_n_haoyi = read.csv("haoyi_YY_n.csv")
 
 total_YY = YY_n_chenggg$YY+YY_n_haoyi$YY+YY_n_zihao$YY
 total_n = YY_n_chenggg$n + YY_n_haoyi$n + YY_n_zihao$n
-p = 10
+p = 9
 beta_matrix = as.matrix(beta_estimates)
 
 epsilon.2 = total_YY - 2 * t(beta_matrix) %*% total_XY + t(beta_matrix) %*% as.matrix(total_XX) %*% beta_matrix

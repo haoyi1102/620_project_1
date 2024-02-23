@@ -97,8 +97,8 @@ df_combined$Y = log(df_combined$prop_ST/(1-df_combined$prop_ST))
 
 linear_model <- lm(Y ~ Total.ST.min + Social.ST.min + 
                      Pickups + duration_per_use + is_weekday
-                   + Pickup.1st.angular + procrastination + BMI 
-                   +course_hours, data = df_combined)
+                   + Pickup.1st.angular + procrastination + BMI, 
+                   data = df_combined)
 
 # View the summary of the linear regression model
 summary(linear_model)

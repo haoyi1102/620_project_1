@@ -48,7 +48,7 @@ df$is_weekday <- ifelse(wday(df$Date) %in% 2:6, 1, 0)
 
 X <- as.matrix(cbind(1, df$Total.ST.min, df$Social.ST.min, 
                      df$Pickups, df$duration_per_use,df$is_weekday,
-                     Pickup.1st.angular,df$procrastination,df$BMI, df$course_hours))
+                     Pickup.1st.angular,df$procrastination,df$BMI))
 Y <- log(df$prop_ST/(1-df$prop_ST))
 
 XX <- t(X) %*% X  
