@@ -1,6 +1,6 @@
 rm(list = ls())
 gc()
-
+library(MASS)
 haoyi_data <- read.csv("haoyi_XX_XY.csv")
 chenggg_data <- read.csv("chenggg_XX_XY.csv")
 zihaohan_data <- read.csv("zihaohan_XX_XY.csv")
@@ -12,7 +12,8 @@ XY_1 = as.matrix(haoyi_data[,ncol(haoyi_data)])
 XY_2 = as.matrix(chenggg_data[,ncol(chenggg_data)])
 XY_3 = as.matrix(zihaohan_data[,ncol(zihaohan_data)])
 total_XY = XY_1 + XY_2 + XY_3
-total_beta = solve(total_XX) %*% total_XY
+total_beta = ginv(total_XX) %*% total_XY
+
 
 
 # extract_and_aggregate <- function(data_list) {
@@ -67,7 +68,7 @@ epsilon.2 = total_YY - 2 * t(beta_matrix) %*% total_XY + t(beta_matrix) %*% as.m
 
 sigma.square = epsilon.2/(total_n-p)
 
-se.beta = sqrt(abs(as.numeric(sigma.square) * solve(total_XX))) 
+se.beta = sqrt(abs(as.numeric(sigma.square) * ginv(total_XX))) 
   
 se.beta = diag(se.beta)
 

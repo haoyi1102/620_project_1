@@ -8,6 +8,7 @@ library(tidyverse)
 library(gtsummary)
 library(ggplot2)
 library(scales)
+
 df <- read_excel("ScreenTime_haoyi.xlsx")
 df <- df[c(1:31), ]
 # df$Pickup.1st_EST <- format(as.POSIXct(df$Pickup.1st_EST, format = "%H:%M", tz = "America/Los_Angeles"), "%H:%M", tz = "America/New_York")
