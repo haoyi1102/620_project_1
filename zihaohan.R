@@ -183,6 +183,6 @@ boxplot_plot <- ggplot(df, aes(x = is_weekday, y = prop_ST, fill = is_weekday)) 
   #scale_fill_manual(values = c("black", "red")) +  # Adjust fill colors as needed
   theme_minimal()
 
-ggsave("./Figure/box_plot_zihaohan.png", plot = proportion.plot, width = 10, height = 6, units = "in")
+ggsave("./Figure/box_plot_zihaohan.png", plot = boxplot_plot, width = 10, height = 6, units = "in")
 
 
