@@ -75,3 +75,4 @@ linear_model <- lm(prop_ST ~ Total.ST.min + Social.ST.min + Pickups + duration_p
 # View the summary of the linear regression model
 summary(linear_model)
 
+ 
